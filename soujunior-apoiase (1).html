@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SouJunior — Apoie quem está começando</title>
+<meta name="description" content="A SouJunior é uma comunidade aberta que conecta quem está começando na programação com mentoria, conteúdo e oportunidades reais.">
+
+<!-- Open Graph / Redes Sociais -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="SouJunior — Apoie quem está começando">
+<meta property="og:description" content="Ajude a manter a comunidade de devs juniores gratuita e acessível.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#12151a;
+    --paper:#f3f1eb;
+    --card:#1b1f27;
+    --violet:#8a6bff;
+    --lime:#c4ff6b;
+    --muted:#8b91a0;
+    --line:#2a2f3a;
+    --radius:2px;
+  }
+  
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+  header{
+    position:sticky;top:0;top:env(safe-area-inset-top,0px);
+    z-index:20;
+    background:rgba(18,21,26,.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-weight:700;font-size:18px;letter-spacing:-0.02em;}
+  .logo span{color:var(--lime);}
+  nav a{font-size:14px;color:var(--muted);text-decoration:none;margin-left:28px;position:relative;padding-bottom:4px;transition:color .2s ease;}
+  nav a:hover{color:var(--paper);}
+  nav a::after{
+    content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--lime);
+    transition:width .25s ease;
+  }
+  nav a.active{color:var(--paper);}
+  nav a.active::after{width:100%;}
+  .nav-cta{
+    background:var(--violet);color:#0f0f14;padding:9px 18px;border-radius:var(--radius);
+    font-weight:600;font-size:14px;
+  }
+  nav{display:flex;align-items:center;}
+  .nav-links{display:flex;}
+  @media(max-width:640px){ .nav-links{display:none;} }
+
+  /* HERO */
+  .hero{padding:96px 0 80px;position:relative;}
+  .hero .kicker{
+    color:var(--lime);font-size:13px;margin-bottom:20px;
+  }
+  h1{
+    font-size:clamp(2.4rem,6vw,4.2rem);
+    line-height:1.02;
+    letter-spacing:-0.03em;
+    font-weight:700;
+    max-width:14ch;
+  }
+  .hero-sub{
+    max-width:52ch;margin-top:24px;font-size:1.1rem;color:#c7c9d1;
+  }
+  .hero-actions{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;align-items:center;}
+  .btn-primary{
+    background:var(--lime);color:#101208;padding:14px 26px;border-radius:var(--radius);
+    font-weight:600;text-decoration:none;font-size:15px;display:inline-block;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(196,255,107,.2);}
+  .btn-ghost{
+    color:var(--paper);text-decoration:none;font-size:15px;border-bottom:1px solid var(--muted);padding-bottom:2px;
+  }
+  .hero-note{margin-top:16px;color:var(--muted);font-size:13px;}
+
+  .rule{height:1px;background:var(--line);width:100%;}
+
+  section{padding:88px 0;}
+  section[id]{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  section[id].in-view{opacity:1;transform:translateY(0);}
+  .section-head{max-width:60ch;margin-bottom:48px;}
+  .section-head p.tag{color:var(--violet);font-size:13px;margin-bottom:14px;}
+  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-0.02em;font-weight:600;}
+  .section-head .lead{color:var(--muted);margin-top:14px;font-size:1.02rem;}
+
+  /* TRANSPARENCY SECTION */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+  .why-item{background:var(--ink);padding:32px;}
+  .why-item .num{font-family:'IBM Plex Mono',monospace;color:var(--violet);font-size:13px;display:block;margin-bottom:14px;}
+  .why-item h3{font-size:1.05rem;font-weight:600;margin-bottom:10px;}
+  .why-item p{color:var(--muted);font-size:.95rem;}
+  @media(max-width:700px){ .why-grid{grid-template-columns:1fr;} }
+
+  /* TRANSPARENCY BREAKDOWN (ANIMADO) */
+  .breakdown{margin-top:40px;}
+  .bd-row{display:grid;grid-template-columns:200px 1fr 56px;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--line);}
+  .bd-row:last-child{border-bottom:1px solid var(--line);}
+  .bd-label{font-size:.92rem;color:var(--paper);}
+  .bd-track{height:6px;background:var(--card);border-radius:99px;overflow:hidden;}
+  .bd-fill{
+    height:100%;
+    background:var(--lime);
+    width:0%;
+    transition:width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .bd-pct{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--muted);text-align:right;}
+  @media(max-width:600px){ .bd-row{grid-template-columns:1fr;gap:6px;} .bd-pct{text-align:left;} }
+
+  /* PERSONAS */
+  .persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .persona-card{border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s, transform .2s;}
+  .persona-card:hover{border-color:var(--violet);transform:translateY(-2px);}
+  .persona-card .p-eyebrow{color:var(--violet);font-size:.8rem;}
+  .persona-card h3{font-size:1.1rem;font-weight:600;}
+  .persona-card p{color:var(--muted);font-size:.92rem;flex:1;}
+  .persona-card a{
+    margin-top:4px;font-size:.9rem;font-weight:600;color:var(--lime);text-decoration:none;border-bottom:1px solid transparent;
+  }
+  .persona-card a:hover{border-bottom-color:var(--lime);}
+  @media(max-width:800px){ .persona-grid{grid-template-columns:1fr;} }
+
+  /* IMPACT MURAL */
+  .impact{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;}
+  .impact-item{border-left:1px solid var(--line);padding-left:20px;}
+  .impact-item .val{font-family:'IBM Plex Mono',monospace;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--lime);}
+  .impact-item .lbl{color:var(--muted);font-size:.85rem;margin-top:6px;}
+  @media(max-width:800px){ .impact-grid{grid-template-columns:repeat(2,1fr);row-gap:36px;} }
+
+  /* DEPOIMENTOS / PROVA SOCIAL */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .testimonial-card{
+    border:1px solid var(--line);
+    padding:24px;
+    border-radius:var(--radius);
+    background:var(--card);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:border-color .2s;
+  }
+  .testimonial-card:hover{border-color:var(--violet);}
+  .testimonial-card p{
+    color:#c7c9d1;
+    font-size:0.93rem;
+    font-style:italic;
+    line-height:1.5;
+    margin-bottom:16px;
+  }
+  .testimonial-author{display:flex;flex-direction:column;}
+  .testimonial-author strong{font-size:0.9rem;color:var(--paper);}
+  .testimonial-author span{font-size:0.8rem;color:var(--muted);}
+  @media(max-width:800px){ .testimonials-grid{grid-template-columns:1fr;} }
+
+  /* DONATION TIERS & BADGE */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .tier{border:1px solid var(--line);padding:28px;border-radius:var(--radius);display:flex;flex-direction:column;transition:border-color .2s, transform .2s;}
+  .tier:hover{transform:translateY(-2px);}
+  .tier.highlight{
+    border-color:var(--violet);
+    background:linear-gradient(180deg,rgba(138,107,255,.09),transparent);
+    position:relative;
+    overflow:hidden;
+  }
+  .badge-pop{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background:var(--lime);
+    color:#101208;
+    font-size:0.72rem;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:var(--radius);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+  .tier .price{font-family:'IBM Plex Mono',monospace;font-size:2rem;color:var(--paper);margin-bottom:4px;}
+  .tier .freq{color:var(--muted);font-size:.85rem;margin-bottom:18px;}
+  .tier ul{list-style:none;color:#c7c9d1;font-size:.92rem;flex:1;}
+  .tier li{padding:7px 0;border-top:1px solid var(--line);}
+  .tier li:first-child{border-top:none;}
+  .tier a{
+    margin-top:22px;text-align:center;padding:12px;border-radius:var(--radius);
+    text-decoration:none;font-weight:600;font-size:.9rem;
+    background:var(--violet);color:#0f0f14;
+    transition:opacity .2s;
+  }
+  .tier a:hover{opacity:.9;}
+  .tier.highlight a{background:var(--lime);}
+  @media(max-width:800px){ .tiers{grid-template-columns:1fr;} }
+
+  /* ECOSYSTEM */
+  .eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .eco-card{
+    border:1px solid var(--line);padding:28px;border-radius:var(--radius);text-decoration:none;color:var(--paper);
+    display:flex;flex-direction:column;gap:10px;transition:border-color .15s ease, transform .2s ease;
+  }
+  .eco-card:hover{border-color:var(--violet);transform:translateY(-2px);}
+  .eco-card .eco-name{font-weight:600;font-size:1.05rem;}
+  .eco-card .eco-desc{color:var(--muted);font-size:.9rem;}
+  .eco-card .eco-go{margin-top:auto;color:var(--lime);font-family:'IBM Plex Mono',monospace;font-size:.8rem;}
+  @media(max-width:800px){ .eco-grid{grid-template-columns:1fr;} }
+
+  footer{padding:48px 0 calc(48px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  footer a{color:var(--muted);text-decoration:underline;}
+
+  ::selection{background:var(--violet);color:#0f0f14;}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--lime);outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important;scroll-behavior:auto!important;}
+    section[id]{opacity:1!important;transform:none!important;}
+    .bd-fill{width:var(--width-target, 100%)!important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">sou<span>junior</span></div>
+    <nav>
+      <div class="nav-links">
+        <a href="#porque" data-nav>Por que apoiar</a>
+        <a href="#impacto" data-nav>Impacto</a>
+        <a href="#depoimentos" data-nav>Depoimentos</a>
+        <a href="#apoiar" data-nav>Como apoiar</a>
+        <a href="#ecossistema" data-nav>Comunidade</a>
+      </div>
+      <a class="nav-cta" href="https://apoia.se/soujunior" target="_blank" rel="noopener">Apoiar agora</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="kicker mono">// apoia.se/soujunior</p>
+      <h1>Todo dev sênior já foi júnior. Ajude o próximo a chegar lá.</h1>
+      <p class="hero-sub">A SouJunior é uma comunidade aberta que conecta quem está começando na programação com mentoria, conteúdo e oportunidades reais. Seu apoio recorrente mantém tudo isso de pé — e gratuito para quem mais precisa.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://apoia.se/soujunior" target="_blank" rel="noopener">Quero apoiar a partir de R$ 2</a>
+        <a class="btn-ghost" href="#porque">Ver para onde vai o dinheiro</a>
+      </div>
+      <p class="hero-note mono">100% do valor arrecadado é revertido para a comunidade — sem fins lucrativos.</p>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="perfis">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="tag mono">00 — quem pode apoiar</p>
+        <h2>Existe um jeito de ajudar para cada perfil</h2>
+      </div>
+      <div class="persona-grid">
+        <div class="persona-card">
+          <span class="p-eyebrow mono">apoiador(a)</span>
+          <h3>Você quer contribuir financeiramente</h3>
+          <p>Apoie com um valor recorrente a partir de R$ 2 e mantenha a comunidade gratuita para quem está começando.</p>
+          <a href="#apoiar">Ver planos de apoio →</a>
+        </div>
+        <div class="persona-card">
+          <span class="p-eyebrow mono">voluntário(a) / mentor(a)</span>
+          <h3>Você quer doar tempo e conhecimento</h3>
+          <p>Entre no Discord e conheça os programas de mentoria — sempre precisamos de quem já passou pelo caminho.</p>
+          <a href="https://discord.gg/FkBcf3vdQZ" target="_blank" rel="noopener">Entrar como voluntário →</a>
+        </div>
+        <div class="persona-card">
+          <span class="p-eyebrow mono">empresa / patrocinador</span>
+          <h3>Sua empresa quer investir na base</h3>
+          <p>Patrocine a comunidade e ganhe visibilidade entre milhares de devs juniores em formação ativa.</p>
+          <a href="https://apoia.se/soujunior" target="_blank" rel="noopener">Falar sobre patrocínio →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="porque">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="tag mono">01 — transparência</p>
+        <h2>Por que seu apoio faz diferença</h2>
+        <p class="lead">A SouJunior é mantida por voluntários. Cada real apoiado vira estrutura para quem está entrando na área: sem ele, o trabalho depende só de boa vontade — e tem limite.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item">
+          <span class="num mono">01</span>
+          <h3>Infraestrutura da comunidade</h3>
+          <p>Hospedagem do site, ferramentas de organização e automações que mantêm o Discord e os processos funcionando.</p>
+        </div>
+        <div class="why-item">
+          <span class="num mono">02</span>
+          <h3>Conteúdo e eventos</h3>
+          <p>Produção de lives, workshops e trilhas de estudo gratuitas, feitas por voluntários que dedicam o tempo livre.</p>
+        </div>
+        <div class="why-item">
+          <span class="num mono">03</span>
+          <h3>Programas de mentoria</h3>
+          <p>Estrutura para conectar mentores voluntários a juniores que buscam orientação de carreira e code review.</p>
+        </div>
+        <div class="why-item">
+          <span class="num mono">04</span>
+          <h3>Acesso sem barreira</h3>
+          <p>Garantir que quem não pode pagar por cursos ou mentorias particulares continue tendo onde aprender.</p>
+        </div>
+      </div>
+
+      <div class="breakdown">
+        <div class="bd-row">
+          <span class="bd-label">Infraestrutura e ferramentas</span>
+          <div class="bd-track"><div class="bd-fill" data-width="35%"></div></div>
+          <span class="bd-pct mono">35%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Conteúdo e eventos</span>
+          <div class="bd-track"><div class="bd-fill" data-width="30%"></div></div>
+          <span class="bd-pct mono">30%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Programas de mentoria</span>
+          <div class="bd-track"><div class="bd-fill" data-width="25%"></div></div>
+          <span class="bd-pct mono">25%</span>
+        </div>
+        <div class="bd-row">
+          <span class="bd-label">Reserva de continuidade</span>
+          <div class="bd-track"><div class="bd-fill" data-width="10%"></div></div>
+          <span class="bd-pct mono">10%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="impact" id="impacto">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="tag mono">02 — mural de impacto</p>
+        <h2>O que a comunidade já construiu</h2>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-item">
+          <div class="val mono">+15k</div>
+          <div class="lbl">devs na comunidade</div>
+        </div>
+        <div class="impact-item">
+          <div class="val mono">+300</div>
+          <div class="lbl">mentores voluntários</div>
+        </div>
+        <div class="impact-item">
+          <div class="val mono">+120</div>
+          <div class="lbl">eventos e lives realizados</div>
+        </div>
+        <div class="impact-item">
+          <div class="val mono">100%</div>
+          <div class="lbl">gratuito para quem participa</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="depoimentos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="tag mono">02.1 — quem vive a comunidade</p>
+        <h2>Quem se beneficia do seu apoio</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p>"Entrei na SouJunior sem saber como conseguir minha primeira oportunidade. Através da mentoria gratuita, recebi code review e hoje trabalho como Dev Frontend."</p>
+          <div class="testimonial-author">
+            <strong>Lucas Andrade</strong>
+            <span>Desenvolvedor Junior</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p>"Apoio a comunidade no Apoia.se com R$ 10 por mês porque sei a diferença que faz ter alguém para te guiar no início da carreira tech."</p>
+          <div class="testimonial-author">
+            <strong>Mariana Costa</strong>
+            <span>Apoiadora & Mentora Voluntária</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p>"A transparência nos relatórios financeiros nos dá total segurança para contribuir e ver vidas sendo transformadas na prática."</p>
+          <div class="testimonial-author">
+            <strong>Gabriel Santos</strong>
+            <span>Engenheiro de Software Sênior</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apoiar">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="tag mono">03 — como apoiar</p>
+        <h2>Escolha um valor recorrente</h2>
+        <p class="lead">Qualquer apoio ajuda — o importante é a recorrência. Você pode cancelar quando quiser, sem burocracia.</p>
+      </div>
+      <div class="tiers">
+        <div class="tier">
+          <div class="price mono">R$ 2</div>
+          <div class="freq">por mês</div>
+          <ul>
+            <li>Selo de apoiador no Discord</li>
+            <li>Acesso antecipado a eventos</li>
+            <li>Sabe que ajudou alguém a começar</li>
+          </ul>
+          <a href="https://apoia.se/soujunior" target="_blank" rel="noopener">Apoiar com R$ 2</a>
+        </div>
+        <div class="tier highlight">
+          <span class="badge-pop mono">Mais Escolhido</span>
+          <div class="price mono">R$ 10</div>
+          <div class="freq">por mês</div>
+          <ul>
+            <li>Tudo do plano anterior</li>
+            <li>Nome nos créditos do site</li>
+            <li>Convite para bastidores da comunidade</li>
+          </ul>
+          <a href="https://apoia.se/soujunior" target="_blank" rel="noopener">Apoiar com R$ 10</a>
+        </div>
+        <div class="tier">
+          <div class="price mono">R$ 30+</div>
+          <div class="freq">por mês</div>
+          <ul>
+            <li>Tudo dos planos anteriores</li>
+            <li>Reconhecimento como apoiador destaque</li>
+            <li>Conversa direta com a organização</li>
+          </ul>
+          <a href="https://apoia.se/soujunior" target="_blank" rel="noopener">Apoiar com R$ 30+</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ecossistema">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="tag mono">04 — ecossistema</p>
+        <h2>Faça parte além da doação</h2>
+        <p class="lead">Apoiar também é participar. Entre nos canais oficiais da comunidade.</p>
+      </div>
+      <div class="eco-grid">
+        <a class="eco-card" href="https://discord.gg/FkBcf3vdQZ" target="_blank" rel="noopener">
+          <div class="eco-name">Discord</div>
+          <div class="eco-desc">Onde a comunidade se organiza, troca conhecimento e tira dúvidas todos os dias.</div>
+          <div class="eco-go mono">entrar no servidor →</div>
+        </a>
+        <a class="eco-card" href="https://chat.whatsapp.com/JJzCMlqMKlw1YOhOk7QB3W" target="_blank" rel="noopener">
+          <div class="eco-name">WhatsApp</div>
+          <div class="eco-desc">Avisos rápidos, vagas e novidades direto no seu celular.</div>
+          <div class="eco-go mono">entrar no grupo →</div>
+        </a>
+        <a class="eco-card" href="https://github.com/SouJunior" target="_blank" rel="noopener">
+          <div class="eco-name">GitHub</div>
+          <div class="eco-desc">Projetos open source da comunidade — contribua com código também.</div>
+          <div class="eco-go mono">ver repositórios →</div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:12px;">
+    <span>SouJunior — comunidade de devs juniores</span>
+    <span><a href="https://apoia.se/soujunior" target="_blank" rel="noopener">apoia.se/soujunior</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('a[data-nav]');
+
+  if(!reduce && 'IntersectionObserver' in window){
+    var revealObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+
+          // Animação das barras de porcentagem
+          var fills = entry.target.querySelectorAll('.bd-fill');
+          fills.forEach(function(fill){
+            var targetWidth = fill.getAttribute('data-width');
+            if(targetWidth) fill.style.width = targetWidth;
+          });
+
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    sections.forEach(function(s){ revealObs.observe(s); });
+  } else {
+    sections.forEach(function(s){ 
+      s.classList.add('in-view'); 
+      s.querySelectorAll('.bd-fill').forEach(function(fill){
+        fill.style.width = fill.getAttribute('data-width');
+      });
+    });
+  }
+
+  if('IntersectionObserver' in window){
+    var navObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var id = entry.target.getAttribute('id');
+          navLinks.forEach(function(a){
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+
+    sections.forEach(function(s){ if(s.id) navObs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
